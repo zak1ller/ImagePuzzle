@@ -1,0 +1,24 @@
+PODS:
+  - PuzzleMaker (1.2.1)
+  - SnapKit (5.6.0)
+  - Then (3.0.0)
+
+DEPENDENCIES:
+  - PuzzleMaker
+  - SnapKit
+  - Then
+
+SPEC REPOS:
+  trunk:
+    - PuzzleMaker
+    - SnapKit
+    - Then
+
+SPEC CHECKSUMS:
+  PuzzleMaker: dd3c705e91d7b4b2a2e74ce2a71e01860930f86c
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
+
+PODFILE CHECKSUM: bc4bbe1ca83c96d91d2f8a150b052d5cc2339c94
+
+COCOAPODS: 1.11.2

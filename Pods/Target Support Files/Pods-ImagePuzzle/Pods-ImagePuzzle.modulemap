@@ -1,0 +1,6 @@
+framework module Pods_ImagePuzzle {
+  umbrella header "Pods-ImagePuzzle-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-ImagePuzzle/Pods-ImagePuzzle-frameworks.sh
+${BUILT_PRODUCTS_DIR}/PuzzleMaker/PuzzleMaker.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
+${BUILT_PRODUCTS_DIR}/Then/Then.framework
