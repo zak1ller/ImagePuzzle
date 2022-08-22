@@ -17,6 +17,13 @@
 		7104D01428B3842200040ACD /* ImagePuzzleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104D01328B3842200040ACD /* ImagePuzzleTests.swift */; };
 		7104D01E28B3842200040ACD /* ImagePuzzleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104D01D28B3842200040ACD /* ImagePuzzleUITests.swift */; };
 		7104D02028B3842200040ACD /* ImagePuzzleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104D01F28B3842200040ACD /* ImagePuzzleUITestsLaunchTests.swift */; };
+		71DB487928B38899008EEB79 /* OriginImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB487828B38899008EEB79 /* OriginImage.swift */; };
+		71DB487C28B38982008EEB79 /* ImageListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB487B28B38982008EEB79 /* ImageListViewModel.swift */; };
+		71DB487E28B38A5D008EEB79 /* ImageListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB487D28B38A5D008EEB79 /* ImageListViewCell.swift */; };
+		71DB488028B38E23008EEB79 /* PuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB487F28B38E23008EEB79 /* PuzzleViewController.swift */; };
+		71DB488228B38E59008EEB79 /* PuzzleVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB488128B38E59008EEB79 /* PuzzleVIewModel.swift */; };
+		71DB488428B38F7B008EEB79 /* PuzzleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB488328B38F7B008EEB79 /* PuzzleImage.swift */; };
+		71DB488628B39504008EEB79 /* PuzzleRandomImaeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB488528B39504008EEB79 /* PuzzleRandomImaeListCell.swift */; };
 		97870B4E1B44B83236A58E76 /* Pods_ImagePuzzleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5E4CC782DA25E0C6ED0B93C /* Pods_ImagePuzzleTests.framework */; };
 		E2DCC3F6B76216297EFF7690 /* Pods_ImagePuzzle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FD00DFD1D153C7DB4826D2 /* Pods_ImagePuzzle.framework */; };
 /* End PBXBuildFile section */
@@ -55,6 +62,13 @@
 		7104D01928B3842200040ACD /* ImagePuzzleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImagePuzzleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7104D01D28B3842200040ACD /* ImagePuzzleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePuzzleUITests.swift; sourceTree = "<group>"; };
 		7104D01F28B3842200040ACD /* ImagePuzzleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePuzzleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		71DB487828B38899008EEB79 /* OriginImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginImage.swift; sourceTree = "<group>"; };
+		71DB487B28B38982008EEB79 /* ImageListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewModel.swift; sourceTree = "<group>"; };
+		71DB487D28B38A5D008EEB79 /* ImageListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewCell.swift; sourceTree = "<group>"; };
+		71DB487F28B38E23008EEB79 /* PuzzleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleViewController.swift; sourceTree = "<group>"; };
+		71DB488128B38E59008EEB79 /* PuzzleVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleVIewModel.swift; sourceTree = "<group>"; };
+		71DB488328B38F7B008EEB79 /* PuzzleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleImage.swift; sourceTree = "<group>"; };
+		71DB488528B39504008EEB79 /* PuzzleRandomImaeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRandomImaeListCell.swift; sourceTree = "<group>"; };
 		DA1CD0D778FF8A5A4ED5DFC1 /* Pods-ImagePuzzleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePuzzleTests.debug.xcconfig"; path = "Target Support Files/Pods-ImagePuzzleTests/Pods-ImagePuzzleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DB27FB4341E1669E35A24FB8 /* Pods-ImagePuzzle-ImagePuzzleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePuzzle-ImagePuzzleUITests.debug.xcconfig"; path = "Target Support Files/Pods-ImagePuzzle-ImagePuzzleUITests/Pods-ImagePuzzle-ImagePuzzleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E5E4CC782DA25E0C6ED0B93C /* Pods_ImagePuzzleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImagePuzzleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +140,7 @@
 		7104CFFB28B3842100040ACD /* ImagePuzzle */ = {
 			isa = PBXGroup;
 			children = (
+				7104D00A28B3842200040ACD /* Info.plist */,
 				7104D02C28B386AB00040ACD /* Source */,
 				7104D02D28B386AF00040ACD /* Resource */,
 			);
@@ -152,9 +167,9 @@
 		7104D02C28B386AB00040ACD /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				7104D00A28B3842200040ACD /* Info.plist */,
 				7104D02E28B386CD00040ACD /* Delegate */,
 				7104D02F28B386D500040ACD /* UI */,
+				71DB487628B38869008EEB79 /* Helper */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -182,8 +197,38 @@
 				7104D00228B3842100040ACD /* Main.storyboard */,
 				7104D00728B3842200040ACD /* LaunchScreen.storyboard */,
 				7104D00028B3842100040ACD /* ImageListViewController.swift */,
+				71DB487D28B38A5D008EEB79 /* ImageListViewCell.swift */,
+				71DB487F28B38E23008EEB79 /* PuzzleViewController.swift */,
+				71DB488528B39504008EEB79 /* PuzzleRandomImaeListCell.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		71DB487628B38869008EEB79 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				71DB487728B38873008EEB79 /* Model */,
+				71DB487A28B38975008EEB79 /* ViewModel */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		71DB487728B38873008EEB79 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				71DB487828B38899008EEB79 /* OriginImage.swift */,
+				71DB488328B38F7B008EEB79 /* PuzzleImage.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		71DB487A28B38975008EEB79 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				71DB487B28B38982008EEB79 /* ImageListViewModel.swift */,
+				71DB488128B38E59008EEB79 /* PuzzleVIewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		BE3A25CD0B16E4DBB444035E /* Pods */ = {
@@ -438,9 +483,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71DB487E28B38A5D008EEB79 /* ImageListViewCell.swift in Sources */,
 				7104D00128B3842100040ACD /* ImageListViewController.swift in Sources */,
+				71DB488028B38E23008EEB79 /* PuzzleViewController.swift in Sources */,
+				71DB487C28B38982008EEB79 /* ImageListViewModel.swift in Sources */,
 				7104CFFD28B3842100040ACD /* AppDelegate.swift in Sources */,
+				71DB488428B38F7B008EEB79 /* PuzzleImage.swift in Sources */,
 				7104CFFF28B3842100040ACD /* SceneDelegate.swift in Sources */,
+				71DB488228B38E59008EEB79 /* PuzzleVIewModel.swift in Sources */,
+				71DB488628B39504008EEB79 /* PuzzleRandomImaeListCell.swift in Sources */,
+				71DB487928B38899008EEB79 /* OriginImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,7 +598,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -600,7 +652,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
