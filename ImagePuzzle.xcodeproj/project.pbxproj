@@ -24,6 +24,7 @@
 		71DB488228B38E59008EEB79 /* PuzzleVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB488128B38E59008EEB79 /* PuzzleVIewModel.swift */; };
 		71DB488428B38F7B008EEB79 /* PuzzleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB488328B38F7B008EEB79 /* PuzzleImage.swift */; };
 		71DB488628B39504008EEB79 /* PuzzleRandomImaeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB488528B39504008EEB79 /* PuzzleRandomImaeListCell.swift */; };
+		71DB488828B3C1BC008EEB79 /* PuzzleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DB488728B3C1BC008EEB79 /* PuzzleCell.swift */; };
 		97870B4E1B44B83236A58E76 /* Pods_ImagePuzzleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5E4CC782DA25E0C6ED0B93C /* Pods_ImagePuzzleTests.framework */; };
 		E2DCC3F6B76216297EFF7690 /* Pods_ImagePuzzle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FD00DFD1D153C7DB4826D2 /* Pods_ImagePuzzle.framework */; };
 /* End PBXBuildFile section */
@@ -69,6 +70,7 @@
 		71DB488128B38E59008EEB79 /* PuzzleVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleVIewModel.swift; sourceTree = "<group>"; };
 		71DB488328B38F7B008EEB79 /* PuzzleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleImage.swift; sourceTree = "<group>"; };
 		71DB488528B39504008EEB79 /* PuzzleRandomImaeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRandomImaeListCell.swift; sourceTree = "<group>"; };
+		71DB488728B3C1BC008EEB79 /* PuzzleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleCell.swift; sourceTree = "<group>"; };
 		DA1CD0D778FF8A5A4ED5DFC1 /* Pods-ImagePuzzleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePuzzleTests.debug.xcconfig"; path = "Target Support Files/Pods-ImagePuzzleTests/Pods-ImagePuzzleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DB27FB4341E1669E35A24FB8 /* Pods-ImagePuzzle-ImagePuzzleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePuzzle-ImagePuzzleUITests.debug.xcconfig"; path = "Target Support Files/Pods-ImagePuzzle-ImagePuzzleUITests/Pods-ImagePuzzle-ImagePuzzleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E5E4CC782DA25E0C6ED0B93C /* Pods_ImagePuzzleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImagePuzzleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,6 +202,7 @@
 				71DB487D28B38A5D008EEB79 /* ImageListViewCell.swift */,
 				71DB487F28B38E23008EEB79 /* PuzzleViewController.swift */,
 				71DB488528B39504008EEB79 /* PuzzleRandomImaeListCell.swift */,
+				71DB488728B3C1BC008EEB79 /* PuzzleCell.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				7104CFFD28B3842100040ACD /* AppDelegate.swift in Sources */,
 				71DB488428B38F7B008EEB79 /* PuzzleImage.swift in Sources */,
 				7104CFFF28B3842100040ACD /* SceneDelegate.swift in Sources */,
+				71DB488828B3C1BC008EEB79 /* PuzzleCell.swift in Sources */,
 				71DB488228B38E59008EEB79 /* PuzzleVIewModel.swift in Sources */,
 				71DB488628B39504008EEB79 /* PuzzleRandomImaeListCell.swift in Sources */,
 				71DB487928B38899008EEB79 /* OriginImage.swift in Sources */,

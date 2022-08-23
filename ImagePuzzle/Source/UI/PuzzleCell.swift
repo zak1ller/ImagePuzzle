@@ -8,10 +8,7 @@
 import Foundation
 import UIKit
 
-final class PuzzleRnadomImageListCell: UICollectionViewCell {
-  
-  lazy var containerView = UIView()
-  
+final class PuzzleCell: UICollectionViewCell {
   lazy var image = UIImageView().then {
     $0.contentMode = .scaleToFill
   }
@@ -35,20 +32,15 @@ final class PuzzleRnadomImageListCell: UICollectionViewCell {
 }
 
 // MARK: - UI
-extension PuzzleRnadomImageListCell {
+extension PuzzleCell {
   private func setView() {
-    contentView.addSubview(containerView)
-    containerView.addSubview(image)
+    contentView.backgroundColor = .systemGroupedBackground
+    contentView.addSubview(image)
   }
   
   private func setConstraint() {
-    containerView.snp.makeConstraints { make in
-      make.leading.trailing.top.bottom.equalToSuperview()
-    }
-    
     image.snp.makeConstraints { make in
-      make.width.height.equalTo(80)
-      make.centerX.centerY.equalToSuperview()
+      make.leading.trailing.top.bottom.equalToSuperview()
     }
   }
 }

@@ -40,8 +40,21 @@ class PuzzleViewController: UIViewController {
     return UICollectionView(frame: .zero, collectionViewLayout: layout)
   }()
   
+  lazy var puzzleCollectionView: UICollectionView = {
+    let layout = UICollectionViewFlowLayout()
+    layout.scrollDirection = .vertical
+    layout.minimumInteritemSpacing = 0
+    layout.minimumLineSpacing = 0
+    return UICollectionView(frame: .zero, collectionViewLayout: layout)
+  }()
+  
   var viewModel: PuzzleViewModel!
   var subscriptions = Set<AnyCancellable>()
+  
+  enum Section: String {
+    case puzzle = "puzzle"
+    case images = "images"
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -53,8 +66,16 @@ class PuzzleViewController: UIViewController {
   
   private func bind() {
     viewModel.$puzzleImages
+      .receive(on: DispatchQueue.main)
       .sink { puzzleImages in
         self.randomImagesCollectionView.reloadData()
+      }
+      .store(in: &subscriptions)
+    
+    viewModel.$dropImages
+      .receive(on: DispatchQueue.main)
+      .sink { puzzleImages in
+        self.puzzleCollectionView.reloadData()
       }
       .store(in: &subscriptions)
   }
@@ -67,13 +88,25 @@ extension PuzzleViewController {
     
     view.addSubview(bottomButtonStackView)
     view.addSubview(randomImagesCollectionView)
+    view.addSubview(puzzleCollectionView)
     
-    randomImagesCollectionView.accessibilityValue = "PuzzleRnadomImageListCell"
+    randomImagesCollectionView.accessibilityValue = Section.images.rawValue
     randomImagesCollectionView.register(PuzzleRnadomImageListCell.self, forCellWithReuseIdentifier: "PuzzleRnadomImageListCell")
     randomImagesCollectionView.delegate = self
     randomImagesCollectionView.dataSource = self
+    randomImagesCollectionView.dragDelegate = self
+    randomImagesCollectionView.dropDelegate = self
     randomImagesCollectionView.backgroundColor = .systemGroupedBackground
    
+    puzzleCollectionView.accessibilityValue = Section.puzzle.rawValue
+    puzzleCollectionView.register(PuzzleCell.self, forCellWithReuseIdentifier: "PuzzleCell")
+    puzzleCollectionView.delegate = self
+    puzzleCollectionView.dataSource = self
+    puzzleCollectionView.dragDelegate = self
+    puzzleCollectionView.dropDelegate = self
+    puzzleCollectionView.layer.cornerRadius = 16
+    puzzleCollectionView.clipsToBounds = true
+    
     bottomButtonStackView.addArrangedSubview(stopButton)
     bottomButtonStackView.addArrangedSubview(passButton)
   }
@@ -99,6 +132,16 @@ extension PuzzleViewController {
       make.leading.trailing.equalToSuperview()
       make.bottom.equalTo(bottomButtonStackView.snp.top).offset(-40)
     }
+    
+    puzzleCollectionView.snp.makeConstraints { make in
+      make.leading.equalToSuperview().offset(16)
+      make.trailing.equalToSuperview().offset(-16)
+      make.top.equalTo(view.layoutMarginsGuide.snp.top).offset(24)
+      
+      let width = UIScreen.main.bounds.width - 32
+      let height = width
+      make.height.equalTo(height)
+    }
   }
 }
 
@@ -116,24 +159,121 @@ extension PuzzleViewController {
 // MARK: - CollectionView
 extension PuzzleViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return viewModel.puzzleImages.count
+    if collectionView.accessibilityValue == Section.images.rawValue {
+      return viewModel.puzzleImages.count
+    } else {
+      return 16
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PuzzleRnadomImageListCell", for: indexPath) as! PuzzleRnadomImageListCell
-    cell.configure(viewModel.puzzleImages[indexPath.item].image)
-    return cell
+    if collectionView.accessibilityValue == Section.images.rawValue {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PuzzleRnadomImageListCell", for: indexPath) as! PuzzleRnadomImageListCell
+      cell.configure(viewModel.puzzleImages[indexPath.item].image ?? Data())
+      return cell
+    } else {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PuzzleCell", for: indexPath) as! PuzzleCell
+      cell.configure(viewModel.dropImages[indexPath.item].image ?? Data())
+      return cell
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 100, height: 100)
+    if collectionView.accessibilityValue == Section.images.rawValue {
+      return CGSize(width: 100, height: 100)
+    } else {
+      let width = (UIScreen.main.bounds.width - 32 - 3)
+      let size = (width / 4)
+      return CGSize(width: size, height: size)
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    return 4
+    if collectionView.accessibilityValue == Section.images.rawValue {
+      return 4
+    } else {
+      return 1
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-    return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+    if collectionView.accessibilityValue == Section.images.rawValue {
+      return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+    } else {
+      return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+  }
+}
+
+extension PuzzleViewController: UICollectionViewDragDelegate {
+  func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+    let provider: NSItemProvider
+    if collectionView.accessibilityValue == Section.images.rawValue {
+      provider = NSItemProvider(object: viewModel.puzzleImages[indexPath.item])
+    } else {
+      provider = NSItemProvider(object: viewModel.dropImages[indexPath.item])
+    }
+    let dragItem = UIDragItem(itemProvider: provider)
+    return [dragItem]
+  }
+}
+
+extension PuzzleViewController: UICollectionViewDropDelegate {
+  func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+    if collectionView.accessibilityValue == Section.puzzle.rawValue {
+      return UICollectionViewDropProposal(operation: .move)
+    } else {
+      return UICollectionViewDropProposal(operation: .move)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+    if collectionView.accessibilityValue == Section.puzzle.rawValue {
+      let destinationIndexPath = coordinator.destinationIndexPath!
+      let item = coordinator.items[0]
+      
+      switch coordinator.proposal.operation {
+      case .move:
+//        if self.viewModel.dropImages[destinationIndexPath.item].image == nil { // 해당 칸에 이미지가 없을 때만
+//          let itemProvider = item.dragItem.itemProvider
+//          itemProvider.loadObject(ofClass: PuzzleImage.self) { puzzle, error in
+//            if let puzzle = puzzle as? PuzzleImage {
+//              if let image = self.viewModel.dropImages[destinationIndexPath.item].image {
+//                print(111)
+//              } else {
+//                self.viewModel.dropImages[destinationIndexPath.item] = puzzle
+//                self.viewModel.removePuzzleImage(id: puzzle.id)
+//              }
+//            }
+//          }
+//        }
+        let itemProvider = item.dragItem.itemProvider
+        itemProvider.loadObject(ofClass: PuzzleImage.self) { puzzle, error in
+          if let puzzle = puzzle as? PuzzleImage {
+            if let _ = self.viewModel.dropImages[destinationIndexPath.item].image {
+              // 이미지가 있으면 옮기지 않는다.
+            } else {
+              var isDropped = false
+              for value in self.viewModel.dropImages {
+                if value.id == puzzle.id {
+                  isDropped = true
+                }
+              }
+              
+              if isDropped { // 이미지 위치 변경
+                self.viewModel.removePuzzleImage(id: puzzle.id)
+                self.viewModel.dropImages[destinationIndexPath.item] = puzzle
+              } else { // 하단 이미지 퍼즐 이미지로 이동
+                self.viewModel.dropImages[destinationIndexPath.item] = puzzle
+                self.viewModel.removeRandomImage(id: puzzle.id)
+              }
+            }
+          }
+        }
+    
+      default:
+        return
+      }
+    }
   }
 }

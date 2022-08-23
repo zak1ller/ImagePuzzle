@@ -14,6 +14,24 @@ final class PuzzleViewModel {
   let originImage: UIImage?
   
   @Published var puzzleImages: [PuzzleImage] = []
+  @Published var dropImages: [PuzzleImage] = [
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0),
+    PuzzleImage(image: nil, index: 0)
+  ]
   
   init(originImage: UIImage?) {
     self.originImage = originImage
@@ -26,13 +44,14 @@ extension PuzzleViewModel {
     PuzzleMaker(image: originImage!, numRows: 4, numColumns: 4)
       .generatePuzzles { throwableClosure in
         do {
+          var index = 0
           let puzzleElements = try throwableClosure()
           for row in 0 ..< row {
             for column in 0 ..< column {
               guard let puzzleElement = puzzleElements[row][column] else { continue }
-              let position = puzzleElement.position
               let image = puzzleElement.image
-              self.puzzleImages.append(PuzzleImage(image: image, position: position))
+              self.puzzleImages.append(PuzzleImage(image: image.pngData()!, index: index))
+              index += 1
             }
           }
         } catch {
@@ -40,5 +59,29 @@ extension PuzzleViewModel {
         }
         self.puzzleImages.shuffle()
       }
+  }
+}
+
+extension PuzzleViewModel {
+  func removeRandomImage(id: String) {
+    var i = 0
+    for value in puzzleImages {
+      if value.id == id {
+        puzzleImages.remove(at: i)
+        break
+      }
+      i += 1
+    }
+  }
+  
+  func removePuzzleImage(id: String) {
+    var i = 0
+    for value in dropImages {
+      if value.id == id {
+        dropImages[i] = PuzzleImage(image: nil, index: 0)
+        break
+      }
+      i += 1
+    }
   }
 }
