@@ -220,8 +220,18 @@ extension PuzzleViewController: UICollectionViewDragDelegate {
 
 extension PuzzleViewController: UICollectionViewDropDelegate {
   func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-    if collectionView.accessibilityValue == Section.puzzle.rawValue {
+    guard let destination = destinationIndexPath?.item else {
       return UICollectionViewDropProposal(operation: .move)
+    }
+    
+    // 퍼즐에 맞출 이미지 선택 칸으로는 이동이 불가능하다.
+    if collectionView.accessibilityValue == Section.images.rawValue {
+      return UICollectionViewDropProposal(operation: .cancel)
+    }
+    
+    // 퍼즐에 이미지가 이미 있는 경우에는 해당 칸에 이동이 불가능하다.
+    if viewModel.dropImages[destination].image != nil {
+      return UICollectionViewDropProposal(operation: .cancel)
     } else {
       return UICollectionViewDropProposal(operation: .move)
     }
@@ -234,43 +244,24 @@ extension PuzzleViewController: UICollectionViewDropDelegate {
       
       switch coordinator.proposal.operation {
       case .move:
-//        if self.viewModel.dropImages[destinationIndexPath.item].image == nil { // 해당 칸에 이미지가 없을 때만
-//          let itemProvider = item.dragItem.itemProvider
-//          itemProvider.loadObject(ofClass: PuzzleImage.self) { puzzle, error in
-//            if let puzzle = puzzle as? PuzzleImage {
-//              if let image = self.viewModel.dropImages[destinationIndexPath.item].image {
-//                print(111)
-//              } else {
-//                self.viewModel.dropImages[destinationIndexPath.item] = puzzle
-//                self.viewModel.removePuzzleImage(id: puzzle.id)
-//              }
-//            }
-//          }
-//        }
         let itemProvider = item.dragItem.itemProvider
         itemProvider.loadObject(ofClass: PuzzleImage.self) { puzzle, error in
           if let puzzle = puzzle as? PuzzleImage {
-            if let _ = self.viewModel.dropImages[destinationIndexPath.item].image {
-              // 이미지가 있으면 옮기지 않는다.
-            } else {
-              var isDropped = false
-              for value in self.viewModel.dropImages {
-                if value.id == puzzle.id {
-                  isDropped = true
-                }
+            var isDropped = false
+            for value in self.viewModel.dropImages {
+              if value.id == puzzle.id {
+                isDropped = true
               }
-              
-              if isDropped { // 이미지 위치 변경
-                self.viewModel.removePuzzleImage(id: puzzle.id)
-                self.viewModel.dropImages[destinationIndexPath.item] = puzzle
-              } else { // 하단 이미지 퍼즐 이미지로 이동
-                self.viewModel.dropImages[destinationIndexPath.item] = puzzle
-                self.viewModel.removeRandomImage(id: puzzle.id)
-              }
+            }
+            if isDropped { // 이미지 위치 변경
+              self.viewModel.removePuzzleImage(id: puzzle.id)
+              self.viewModel.dropImages[destinationIndexPath.item] = puzzle
+            } else { // 하단 이미지 퍼즐 이미지로 이동
+              self.viewModel.dropImages[destinationIndexPath.item] = puzzle
+              self.viewModel.removeRandomImage(id: puzzle.id)
             }
           }
         }
-    
       default:
         return
       }
