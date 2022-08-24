@@ -12,8 +12,10 @@ import PuzzleMaker
 
 final class PuzzleViewModel {
   let originImage: UIImage?
+  var latestSelectedSection: Section?
   
   @Published var activeView = true
+  @Published var randomImagesScrollToFirst = false
   @Published var puzzleImages: [PuzzleImage] = []
   @Published var dropImages: [PuzzleImage] = [
     PuzzleImage(image: nil, index: 0),
@@ -108,5 +110,21 @@ extension PuzzleViewModel {
       }
       i += 1
     }
+  }
+  
+  func revertPuzzleImage(id: String) {
+    var i = 0
+    var image = PuzzleImage(image: nil, index: 0)
+    for value in dropImages {
+      if value.id == id {
+        image = dropImages[i]
+        dropImages[i] = PuzzleImage(image: nil, index: 0)
+        break
+      }
+      i += 1
+    }
+    puzzleImages.insert(image, at: 0)
+    
+    randomImagesScrollToFirst = true
   }
 }

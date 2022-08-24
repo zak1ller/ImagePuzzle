@@ -8,6 +8,11 @@
 import UIKit
 import Combine
 
+enum Section: String {
+  case puzzle = "puzzle"
+  case images = "images"
+}
+
 class PuzzleViewController: UIViewController {
   
   lazy var bottomButtonStackView = UIStackView().then {
@@ -67,11 +72,6 @@ class PuzzleViewController: UIViewController {
   var viewModel: PuzzleViewModel!
   var subscriptions = Set<AnyCancellable>()
   
-  enum Section: String {
-    case puzzle = "puzzle"
-    case images = "images"
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     configurationNavigationItem()
@@ -100,6 +100,19 @@ class PuzzleViewController: UIViewController {
       .sink { activeView in
         if !activeView {
           self.navigationController?.popViewController(animated: true)
+        }
+      }
+      .store(in: &subscriptions)
+    
+    viewModel.$randomImagesScrollToFirst
+      .receive(on: DispatchQueue.main)
+      .sink { scrollToFirst in
+        if scrollToFirst {
+          self.randomImagesCollectionView.scrollToItem(
+            at: IndexPath(row: 0, section: 0),
+            at: .left,
+            animated: true
+          )
         }
       }
       .store(in: &subscriptions)
@@ -284,8 +297,10 @@ extension PuzzleViewController: UICollectionViewDragDelegate {
     let provider: NSItemProvider
     if collectionView.accessibilityValue == Section.images.rawValue {
       provider = NSItemProvider(object: viewModel.puzzleImages[indexPath.item])
+      viewModel.latestSelectedSection = .images
     } else {
       provider = NSItemProvider(object: viewModel.dropImages[indexPath.item])
+      viewModel.latestSelectedSection = .puzzle
     }
     let dragItem = UIDragItem(itemProvider: provider)
     return [dragItem]
@@ -298,9 +313,11 @@ extension PuzzleViewController: UICollectionViewDropDelegate {
       return UICollectionViewDropProposal(operation: .move)
     }
     
-    // 퍼즐에 맞출 이미지 선택 칸으로는 이동이 불가능하다.
+    // 퍼즐에 맞출 이미지 선택 칸 내에서는 상호 이동이 불가능하다.
     if collectionView.accessibilityValue == Section.images.rawValue {
-      return UICollectionViewDropProposal(operation: .cancel)
+      if viewModel.latestSelectedSection == .images {
+        return UICollectionViewDropProposal(operation: .cancel)
+      }
     }
     
     // 퍼즐에 이미지가 이미 있는 경우에는 해당 칸에 이동이 불가능하다.
@@ -312,13 +329,13 @@ extension PuzzleViewController: UICollectionViewDropDelegate {
   }
   
   func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+    let destinationIndexPath = coordinator.destinationIndexPath!
+    let item = coordinator.items[0]
+    let itemProvider = item.dragItem.itemProvider
+    
     if collectionView.accessibilityValue == Section.puzzle.rawValue {
-      let destinationIndexPath = coordinator.destinationIndexPath!
-      let item = coordinator.items[0]
-      
       switch coordinator.proposal.operation {
       case .move:
-        let itemProvider = item.dragItem.itemProvider
         itemProvider.loadObject(ofClass: PuzzleImage.self) { puzzle, error in
           if let puzzle = puzzle as? PuzzleImage {
             var isDropped = false
@@ -338,6 +355,17 @@ extension PuzzleViewController: UICollectionViewDropDelegate {
         }
       default:
         return
+      }
+    } else {
+      switch coordinator.proposal.operation {
+      case .move:
+        itemProvider.loadObject(ofClass: PuzzleImage.self) { puzzle, error in
+          if let puzzle = puzzle as? PuzzleImage {
+            self.viewModel.revertPuzzleImage(id: puzzle.id)
+          }
+        }
+      default:
+        break
       }
     }
   }
