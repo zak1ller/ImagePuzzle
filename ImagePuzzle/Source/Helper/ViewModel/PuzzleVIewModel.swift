@@ -13,6 +13,7 @@ import PuzzleMaker
 final class PuzzleViewModel {
   let originImage: UIImage?
   
+  @Published var activeView = true
   @Published var puzzleImages: [PuzzleImage] = []
   @Published var dropImages: [PuzzleImage] = [
     PuzzleImage(image: nil, index: 0),
@@ -32,8 +33,6 @@ final class PuzzleViewModel {
     PuzzleImage(image: nil, index: 0),
     PuzzleImage(image: nil, index: 0)
   ]
-  
-  @Published var activeView = true
   
   init(originImage: UIImage?) {
     self.originImage = originImage

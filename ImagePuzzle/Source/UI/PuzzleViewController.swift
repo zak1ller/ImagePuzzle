@@ -33,7 +33,7 @@ class PuzzleViewController: UIViewController {
     $0.layer.cornerRadius = 20
   }
   
-  let randomImagesCollectionView: UICollectionView = {
+  lazy var randomImagesCollectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     layout.scrollDirection = .horizontal
     return UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -46,6 +46,23 @@ class PuzzleViewController: UIViewController {
     layout.minimumLineSpacing = 0
     return UICollectionView(frame: .zero, collectionViewLayout: layout)
   }()
+  
+  lazy var textStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.distribution = .fill
+    $0.spacing = 8
+  }
+  
+  lazy var puzzleTitleLabel = UILabel().then {
+    $0.text = "퍼즐 조각"
+    $0.font = .systemFont(ofSize: 18, weight: .bold)
+  }
+  
+  lazy var puzzleDescriptionLabel = UILabel().then {
+    $0.text = "조각을 꾹 눌러서 위 퍼즐판에 넣고 뺄 수 있어요!"
+    $0.textColor = .secondaryLabel
+    $0.font = .systemFont(ofSize: 14, weight: .medium)
+  }
   
   var viewModel: PuzzleViewModel!
   var subscriptions = Set<AnyCancellable>()
@@ -135,6 +152,10 @@ extension PuzzleViewController {
     view.addSubview(bottomButtonStackView)
     view.addSubview(randomImagesCollectionView)
     view.addSubview(puzzleCollectionView)
+    view.addSubview(textStackView)
+    
+    bottomButtonStackView.addArrangedSubview(stopButton)
+    bottomButtonStackView.addArrangedSubview(passButton)
     
     randomImagesCollectionView.accessibilityValue = Section.images.rawValue
     randomImagesCollectionView.register(PuzzleRnadomImageListCell.self, forCellWithReuseIdentifier: "PuzzleRnadomImageListCell")
@@ -153,8 +174,8 @@ extension PuzzleViewController {
     puzzleCollectionView.layer.cornerRadius = 16
     puzzleCollectionView.clipsToBounds = true
     
-    bottomButtonStackView.addArrangedSubview(stopButton)
-    bottomButtonStackView.addArrangedSubview(passButton)
+    textStackView.addArrangedSubview(puzzleTitleLabel)
+    textStackView.addArrangedSubview(puzzleDescriptionLabel)
   }
   
   private func setConstraint() {
@@ -183,10 +204,13 @@ extension PuzzleViewController {
       make.leading.equalToSuperview().offset(16)
       make.trailing.equalToSuperview().offset(-16)
       make.top.equalTo(view.layoutMarginsGuide.snp.top).offset(24)
-      
-      let width = UIScreen.main.bounds.width - 32
-      let height = width
-      make.height.equalTo(height)
+      make.height.equalTo(UIScreen.main.bounds.width - 32)
+    }
+    
+    textStackView.snp.makeConstraints { make in
+      make.leading.equalToSuperview().offset(16)
+      make.trailing.equalToSuperview().offset(-16)
+      make.bottom.equalTo(randomImagesCollectionView.snp.top).offset(-24)
     }
   }
 }
