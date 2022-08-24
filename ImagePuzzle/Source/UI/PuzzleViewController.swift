@@ -26,7 +26,6 @@ class PuzzleViewController: UIViewController {
   }
   
   lazy var passButton = UIButton(type: .system).then {
-    $0.addTarget(self, action: #selector(passButtonTapped), for: .touchUpInside)
     $0.setTitle("넘기기", for: .normal)
     $0.setTitleColor(.white, for: .normal)
     $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
@@ -58,6 +57,7 @@ class PuzzleViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    configurationNavigationItem()
     setView()
     setConstraint()
     bind()
@@ -78,11 +78,57 @@ class PuzzleViewController: UIViewController {
         self.puzzleCollectionView.reloadData()
       }
       .store(in: &subscriptions)
+    
+    viewModel.$activeView
+      .sink { activeView in
+        if !activeView {
+          self.navigationController?.popViewController(animated: true)
+        }
+      }
+      .store(in: &subscriptions)
   }
 }
 
 // MARK: - UI
 extension PuzzleViewController {
+  private func configurationNavigationItem() {
+    let closeImage = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
+    let closeButton = UIButton(type: .system)
+    closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+    closeButton.setImage(closeImage, for: .normal)
+    closeButton.snp.makeConstraints { make in
+      make.width.height.equalTo(24)
+    }
+    
+    let reloadImage = UIImage(named: "reload")?.withRenderingMode(.alwaysOriginal)
+    let reloadButton = UIButton(type: .system)
+    reloadButton.addTarget(self, action: #selector(reloadButtonTapped), for: .touchUpInside)
+    reloadButton.setImage(reloadImage, for: .normal)
+    reloadButton.snp.makeConstraints { make in
+      make.width.height.equalTo(24)
+    }
+    
+    let warningImage = UIImage(named: "warning")?.withRenderingMode(.alwaysOriginal)
+    let warningButton = UIButton(type: .system)
+    warningButton.setImage(warningImage, for: .normal)
+    warningButton.snp.makeConstraints { make in
+      make.width.height.equalTo(24)
+    }
+    
+    let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+    fixedSpace.width = 16
+    
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
+    navigationItem.rightBarButtonItems = [
+      UIBarButtonItem(customView: warningButton),
+      fixedSpace,
+      UIBarButtonItem(customView: reloadButton)
+    ]
+    
+    // 뒤로가기 스와이프 제스처 안 될 때
+    self.navigationController?.interactivePopGestureRecognizer?.delegate = nil;
+  }
+  
   private func setView() {
     view.backgroundColor = .systemBackground
     
@@ -147,12 +193,16 @@ extension PuzzleViewController {
 
 // MARK: - Action
 extension PuzzleViewController {
-  @objc private func stopButtonTapped() {
-    
+  @objc private func closeButtonTapped() {
+    viewModel.activeView = false
   }
   
-  @objc private func passButtonTapped() {
-    
+  @objc private func stopButtonTapped() {
+    viewModel.activeView = false
+  }
+
+  @objc private func reloadButtonTapped() {
+    viewModel.reload()
   }
 }
 

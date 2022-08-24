@@ -33,6 +33,8 @@ final class PuzzleViewModel {
     PuzzleImage(image: nil, index: 0)
   ]
   
+  @Published var activeView = true
+  
   init(originImage: UIImage?) {
     self.originImage = originImage
   }
@@ -41,7 +43,7 @@ final class PuzzleViewModel {
 // MARK: - Image Woker
 extension PuzzleViewModel {
   func makePuzzle(row: Int, column: Int) {
-    PuzzleMaker(image: originImage!, numRows: 4, numColumns: 4)
+    PuzzleMaker(image: originImage!, numRows: row, numColumns: column)
       .generatePuzzles { throwableClosure in
         do {
           var index = 0
@@ -63,6 +65,30 @@ extension PuzzleViewModel {
 }
 
 extension PuzzleViewModel {
+  func reload() {
+    dropImages = [
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0),
+      PuzzleImage(image: nil, index: 0)
+    ]
+    
+    self.puzzleImages.removeAll()
+    makePuzzle(row: 4, column: 4)
+  }
+  
   func removeRandomImage(id: String) {
     var i = 0
     for value in puzzleImages {
