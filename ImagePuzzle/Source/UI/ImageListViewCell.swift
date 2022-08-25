@@ -48,6 +48,7 @@ class ImageListViewCell: UITableViewCell {
   }
 }
 
+// MARK: - UI
 extension ImageListViewCell {
   private func setView() {
     contentView.addSubview(image)

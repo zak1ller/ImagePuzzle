@@ -15,6 +15,7 @@ final class PuzzleViewModel {
   var latestSelectedSection: PuzzleSection? // 선택중인 섹션을 구분하기 위한 변수
   
   @Published var activeView = true
+  @Published var isSuccessedPuzzle = false
   @Published var randomImagesScrollToFirst = false
   @Published var puzzleImages: [PuzzleImage] = []
   @Published var dropImages: [PuzzleImage] = [
@@ -34,7 +35,20 @@ final class PuzzleViewModel {
     PuzzleImage(image: nil, index: 0),
     PuzzleImage(image: nil, index: 0),
     PuzzleImage(image: nil, index: 0)
-  ]
+  ] {
+    didSet {
+      var nilCount = 0
+      for value in dropImages {
+        if value.image == nil {
+          nilCount += 1
+        }
+      }
+      
+      if nilCount == 0 {
+        checkPuzzleSuccess()
+      }
+    }
+  }
   
   init(originImage: UIImage?) {
     self.originImage = originImage
@@ -65,7 +79,21 @@ extension PuzzleViewModel {
   }
 }
 
+// MARK: - Functions
 extension PuzzleViewModel {
+  func checkPuzzleSuccess() {
+    var i = 0
+    var isSuccess = true
+    dropImages.forEach {
+      if $0.index != i {
+        isSuccess = false
+      }
+      i += 1
+    }
+    
+    isSuccessedPuzzle = isSuccess
+  }
+  
   func reload() {
     dropImages = [
       PuzzleImage(image: nil, index: 0),

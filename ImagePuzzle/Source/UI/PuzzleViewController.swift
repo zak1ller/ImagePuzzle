@@ -87,7 +87,7 @@ class PuzzleViewController: UIViewController {
     
     viewModel.$dropImages
       .receive(on: DispatchQueue.main)
-      .sink { puzzleImages in
+      .sink { dropImages in
         self.puzzleCollectionView.reloadData()
       }
       .store(in: &subscriptions)
@@ -109,6 +109,16 @@ class PuzzleViewController: UIViewController {
             at: .left,
             animated: true
           )
+        }
+      }
+      .store(in: &subscriptions)
+    
+    viewModel.$isSuccessedPuzzle
+      .sink { isSuccessedPuzzle in
+        if isSuccessedPuzzle {
+          print("Success!")
+        } else {
+          // 퍼즐을 완성했으나 조각이 맞지 않음
         }
       }
       .store(in: &subscriptions)
@@ -239,7 +249,7 @@ extension PuzzleViewController {
   }
 }
 
-// MARK: - CollectionView
+// MARK: - CollectionView Delegate, Datasource
 extension PuzzleViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if collectionView.accessibilityValue == PuzzleSection.images.rawValue {
@@ -288,6 +298,7 @@ extension PuzzleViewController: UICollectionViewDelegate, UICollectionViewDataSo
   }
 }
 
+// MARK: - CollectionView Drag and Drop
 extension PuzzleViewController: UICollectionViewDragDelegate {
   func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
     let provider: NSItemProvider
