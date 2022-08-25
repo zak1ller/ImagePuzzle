@@ -7,7 +7,9 @@
 
 import Foundation
 import Combine
+import UIKit
 
 final class ImageListViewModel {
   @Published var images: [OriginImage] = OriginImage.originSampleImages
+  @Published var selectedImage: UIImage?
 }

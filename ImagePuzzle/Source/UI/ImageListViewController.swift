@@ -35,6 +35,15 @@ class ImageListViewController: UIViewController {
         self.tableView.reloadData()
       }
       .store(in: &subscriptions)
+    
+    viewModel.$selectedImage
+      .compactMap { $0 }
+      .sink { image in
+        let vc = PuzzleViewController()
+        vc.viewModel = PuzzleViewModel(originImage: image)
+        self.navigationController?.pushViewController(vc, animated: true)
+      }
+      .store(in: &subscriptions)
   }
 }
 
@@ -68,10 +77,6 @@ extension ImageListViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let item = viewModel.images[indexPath.item]
-    
-    let vc = PuzzleViewController()
-    vc.viewModel = PuzzleViewModel(originImage: item.image)
-    self.navigationController?.pushViewController(vc, animated: true)
+    viewModel.selectedImage = viewModel.images[indexPath.item].image
   }
 }

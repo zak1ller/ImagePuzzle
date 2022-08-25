@@ -73,6 +73,7 @@ class PuzzleViewController: UIViewController {
     setView()
     setConstraint()
     bind()
+    
     viewModel.makePuzzle(row: 4, column: 4)
   }
   
@@ -324,7 +325,8 @@ extension PuzzleViewController: UICollectionViewDropDelegate {
   }
   
   func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-    let destinationIndexPath = coordinator.destinationIndexPath!
+    guard let destinationIndexPath = coordinator.destinationIndexPath else { return }
+
     let item = coordinator.items[0]
     let itemProvider = item.dragItem.itemProvider
     

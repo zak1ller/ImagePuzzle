@@ -11,8 +11,8 @@ import UIKit
 import PuzzleMaker
 
 final class PuzzleViewModel {
-  let originImage: UIImage?
-  var latestSelectedSection: PuzzleSection?
+  var originImage: UIImage?
+  var latestSelectedSection: PuzzleSection? // 선택중인 섹션을 구분하기 위한 변수
   
   @Published var activeView = true
   @Published var randomImagesScrollToFirst = false
