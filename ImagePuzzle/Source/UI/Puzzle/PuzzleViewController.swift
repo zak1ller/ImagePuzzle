@@ -114,11 +114,24 @@ class PuzzleViewController: UIViewController {
       .store(in: &subscriptions)
     
     viewModel.$isSuccessedPuzzle
+      .receive(on: DispatchQueue.main)
+      .compactMap { $0 }
       .sink { isSuccessedPuzzle in
         if isSuccessedPuzzle {
-          print("Success!")
+          let vc = PuzzleSuccessEfffectViewController()
+          vc.modalPresentationStyle = .overFullScreen
+          vc.dismissedAction = {
+            let vc = PuzzleSuccessViewController()
+            vc.viewModel = PuzzleSuccessViewModel(originImage: self.viewModel.originImage)
+            self.navigationController?.pushViewController(vc, animated: true)
+          }
+          self.present(vc, animated: false, completion: nil)
         } else {
-          // 퍼즐을 완성했으나 조각이 맞지 않음
+          let alert = UIAlertController( title: "알림", message: "퍼즐이 맞지 않아요...", preferredStyle: .alert)
+          alert.addAction(UIAlertAction(title: "다시하기", style: .cancel, handler: { _ in
+            self.viewModel.reload()
+          }))
+          self.present(alert, animated: true, completion: nil)
         }
       }
       .store(in: &subscriptions)

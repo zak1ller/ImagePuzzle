@@ -77,6 +77,6 @@ extension ImageListViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    viewModel.selectedImage = viewModel.images[indexPath.item].image
+    viewModel.selectedImage = viewModel.images[indexPath.item]
   }
 }

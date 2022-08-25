@@ -11,11 +11,11 @@ import UIKit
 import PuzzleMaker
 
 final class PuzzleViewModel {
-  var originImage: UIImage?
+  var originImage: OriginImage
   var latestSelectedSection: PuzzleSection? // 선택중인 섹션을 구분하기 위한 변수
   
   @Published var activeView = true
-  @Published var isSuccessedPuzzle = false
+  @Published var isSuccessedPuzzle: Bool?
   @Published var randomImagesScrollToFirst = false
   @Published var puzzleImages: [PuzzleImage] = []
   @Published var dropImages: [PuzzleImage] = [
@@ -50,7 +50,7 @@ final class PuzzleViewModel {
     }
   }
   
-  init(originImage: UIImage?) {
+  init(originImage: OriginImage) {
     self.originImage = originImage
   }
 }
@@ -58,7 +58,7 @@ final class PuzzleViewModel {
 // MARK: - Image Woker
 extension PuzzleViewModel {
   func makePuzzle(row: Int, column: Int) {
-    PuzzleMaker(image: originImage!, numRows: row, numColumns: column)
+    PuzzleMaker(image: originImage.image!, numRows: row, numColumns: column)
       .generatePuzzles { throwableClosure in
         do {
           var index = 0
@@ -74,7 +74,7 @@ extension PuzzleViewModel {
         } catch {
           debugPrint(error)
         }
-        self.puzzleImages.shuffle()
+//        self.puzzleImages.shuffle()
       }
   }
 }
@@ -90,7 +90,6 @@ extension PuzzleViewModel {
       }
       i += 1
     }
-    
     isSuccessedPuzzle = isSuccess
   }
   

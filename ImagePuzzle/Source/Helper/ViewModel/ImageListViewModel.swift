@@ -11,5 +11,5 @@ import UIKit
 
 final class ImageListViewModel {
   @Published var images: [OriginImage] = OriginImage.originSampleImages
-  @Published var selectedImage: UIImage?
+  @Published var selectedImage: OriginImage?
 }
