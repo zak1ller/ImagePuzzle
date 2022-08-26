@@ -11,6 +11,9 @@ import Combine
 final class PuzzleSuccessViewModel {
   let originImage: OriginImage
   
+  @Published var activeRoowView = true
+  @Published var activeView = true
+  
   init(originImage: OriginImage) {
     self.originImage = originImage
   }
