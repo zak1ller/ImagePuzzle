@@ -74,7 +74,7 @@ extension PuzzleViewModel {
         } catch {
           debugPrint(error)
         }
-//        self.puzzleImages.shuffle()
+        self.puzzleImages.shuffle()
       }
   }
 }
@@ -113,7 +113,7 @@ extension PuzzleViewModel {
       PuzzleImage(image: nil, index: 0)
     ]
     
-    self.puzzleImages.removeAll()
+    puzzleImages.removeAll()
     makePuzzle(row: 4, column: 4)
   }
   

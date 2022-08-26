@@ -77,15 +77,6 @@ class PuzzleViewController: UIViewController {
     viewModel.makePuzzle(row: 4, column: 4)
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    let vc = PuzzleSuccessViewController()
-    vc.viewModel = PuzzleSuccessViewModel(originImage: self.viewModel.originImage)
-    vc.reloadAction = {
-      self.viewModel.reload()
-    }
-    self.navigationController?.pushViewController(vc, animated: true)
-  }
-  
   private func bind() {
     viewModel.$puzzleImages
       .receive(on: DispatchQueue.main)
@@ -132,6 +123,9 @@ class PuzzleViewController: UIViewController {
           vc.dismissedAction = {
             let vc = PuzzleSuccessViewController()
             vc.viewModel = PuzzleSuccessViewModel(originImage: self.viewModel.originImage)
+            vc.reloadAction = {
+              self.viewModel.reload()
+            }
             self.navigationController?.pushViewController(vc, animated: true)
           }
           self.present(vc, animated: false, completion: nil)

@@ -53,7 +53,7 @@ final class PuzzleSuccessViewController: UIViewController {
     bind()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
+  override func viewDidDisappear(_ animated: Bool) {
     if !viewModel.activeView {
       reloadAction?()
     }
