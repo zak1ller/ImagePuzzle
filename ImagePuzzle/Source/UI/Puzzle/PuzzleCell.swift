@@ -13,6 +13,8 @@ final class PuzzleCell: UICollectionViewCell {
     $0.contentMode = .scaleToFill
   }
   
+  var dragging = false
+  
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     setView()
@@ -23,6 +25,25 @@ final class PuzzleCell: UICollectionViewCell {
     super.init(frame: frame)
     setView()
     setConstraint()
+  }
+  
+  override func dragStateDidChange(_ dragState: UICollectionViewCell.DragState) {
+    switch dragState {
+    case .none:
+      self.image.layer.opacity = 1
+      dragging = false
+    case .lifting:
+      return
+    case .dragging:
+      if !dragging {
+        self.image.layer.opacity = 0
+        dragging = true
+      } else {
+        self.image.layer.opacity = 1
+      }
+    default:
+      break
+    }
   }
   
   func configure(_ item: PuzzleImage) {

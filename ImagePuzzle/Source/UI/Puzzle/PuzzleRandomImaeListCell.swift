@@ -36,13 +36,10 @@ final class PuzzleRnadomImageListCell: UICollectionViewCell {
   override func dragStateDidChange(_ dragState: UICollectionViewCell.DragState) {
     switch dragState {
     case .none:
-      print("none")
       self.image.layer.opacity = 1
     case .lifting:
-      print("lifting")
       return
     case .dragging:
-      print("dragging")
       if !opacity {
         self.image.layer.opacity = 0
       } else {
