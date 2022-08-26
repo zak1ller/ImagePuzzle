@@ -324,6 +324,11 @@ extension PuzzleViewController: UICollectionViewDragDelegate {
     } else {
       provider = NSItemProvider(object: viewModel.dropImages[indexPath.item])
       viewModel.latestSelectedSection = .puzzle
+      
+      // 빈칸 드래그 금지ㅋ
+      if viewModel.dropImages[indexPath.item].image == nil {
+        return []
+      }
     }
     let dragItem = UIDragItem(itemProvider: provider)
     return [dragItem]
