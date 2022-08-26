@@ -53,6 +53,11 @@ final class PuzzleSuccessViewController: UIViewController {
     bind()
   }
   
+  override func viewWillDisappear(_ animated: Bool) {
+    // Disable 했던 제스처를 다시 활성화
+    navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+  }
+  
   override func viewDidDisappear(_ animated: Bool) {
     if !viewModel.activeView {
       reloadAction?()
