@@ -282,7 +282,7 @@ extension PuzzleViewController: UICollectionViewDelegate, UICollectionViewDataSo
       return cell
     } else {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PuzzleCell", for: indexPath) as! PuzzleCell
-      cell.configure(viewModel.dropImages[indexPath.item].image ?? Data())
+      cell.configure(viewModel.dropImages[indexPath.item])
       return cell
     }
   }

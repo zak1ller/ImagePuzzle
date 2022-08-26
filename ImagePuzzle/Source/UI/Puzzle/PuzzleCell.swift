@@ -25,8 +25,8 @@ final class PuzzleCell: UICollectionViewCell {
     setConstraint()
   }
   
-  func configure(_ item: Data) {
-    let image = UIImage(data: item)
+  func configure(_ item: PuzzleImage) {
+    let image = UIImage(data: item.image ?? Data())
     self.image.image = image
   }
 }
